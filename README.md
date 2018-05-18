@@ -9,8 +9,8 @@ Quick start
    create file '__init__.py'
    Then create files base.py, prod.py and dev.py (for development)
 2. In base.py import secrets `from django_secrecy.settings import get_secrets`
-3. Add to end of the base.py - `globals().update(get_secrets(BASE_DIR))`
-4. Add "secrecy" to your INSTALLED_APPS setting like this::
+3. Add to end of the settings(base, prod, dev)- `vars().update(get_secrets(BASE_DIR))`
+4. Add "django_secrecy" to your INSTALLED_APPS setting like this::
 
     INSTALLED_APPS = [
         ...
@@ -27,5 +27,5 @@ Quick start
 - generate file whithout DB params, buy default - sqlite3
 
 # TODO
-- If you need DB params - you must use:
+- If you need DB params in DEBUG - you must use:
     `python manage.py secretgenerator --adddb`
