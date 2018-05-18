@@ -6,8 +6,6 @@ import getpass
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
-from settings import SECRET_FILE
-
 
 class Command(BaseCommand):
     help = '''
@@ -19,15 +17,17 @@ class Command(BaseCommand):
                 DB password > very strong password;
                 SECRET_KEY;
         '''
-
     db_name = None
     username = None
     db_pass = None
     SECRET_KEY = None
     SALT = base64.b64encode(os.urandom(60)).decode()
 
-    def __init__(self, SECRET_FILE=SECRET_FILE):
-        self.secret_file = SECRET_FILE
+    def __init__(self):
+        PROJECT_NAME = settings.BASE_DIR.split(os.sep)[-1]
+        self.secret_file = os.path.join(settings.BASE_DIR,
+                                   PROJECT_NAME,
+                                   'settings/secrets.json')
 
     def add_arguments(self, parser):
         parser.add_argument('--addparam', nargs=None, type=str,

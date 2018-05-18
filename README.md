@@ -8,13 +8,13 @@ Quick start
 1. In <ProjName>/<ProjName> create dir name 'settings'
    create file '__init__.py'
    Then create files base.py, prod.py and dev.py (for development)
-2. In base.py import secrets `from secrecy.settings import get_secrets`
+2. In base.py import secrets `from django_secrecy.settings import get_secrets`
 3. Add to end of the base.py - `globals().update(get_secrets(BASE_DIR))`
 4. Add "secrecy" to your INSTALLED_APPS setting like this::
 
     INSTALLED_APPS = [
         ...
-        'secrecy',
+        'django_secrecy',
     ]
 5. Run `python manage.py secretgenerator` to generate JSON file.
 
