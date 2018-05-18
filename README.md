@@ -1,6 +1,5 @@
-=====
-Secrecy
-=====
+Django Secrecy
+==============
 
 Secrecy is a simple Django app which generates JSON file with "secret project variables"
 
