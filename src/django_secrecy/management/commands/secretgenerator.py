@@ -20,7 +20,7 @@ class Command(BaseCommand):
     db_name = None
     username = None
     db_pass = None
-    SECRET_KEY = None
+    SECRET_KEY = base64.b64encode(os.urandom(60)).decode()
     SALT = base64.b64encode(os.urandom(60)).decode()
 
     def __init__(self):
@@ -53,7 +53,6 @@ class Command(BaseCommand):
                 break
             else:
                 print("Пароли не совпадают - повтор!")
-        self.SECRET_KEY = base64.b64encode(os.urandom(60)).decode()
         self.create_file()
 
     def add_param(self, param):
