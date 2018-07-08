@@ -13,7 +13,7 @@ args = parser.parse_args()
 project_name = args.project_name
 
 BASE_DIR = os.path.join(sys.path[-1].split('lib')[0], project_name)
-BASE_DIR_SETTINGS = os.path.join(project, project_name)
+BASE_DIR_SETTINGS = os.path.join(BASE_DIR, project_name)
 
 
 SETTINGS_PATH = os.path.join(BASE_DIR_SETTINGS, 'settings')
