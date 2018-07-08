@@ -14,8 +14,6 @@ project_name = args.project_name
 
 BASE_DIR = os.path.join(sys.path[-1].split('lib')[0], project_name)
 BASE_DIR_SETTINGS = os.path.join(BASE_DIR, project_name)
-
-
 SETTINGS_PATH = os.path.join(BASE_DIR_SETTINGS, 'settings')
 
 def main():
@@ -30,10 +28,15 @@ def main():
         print(msg)
         exit()
 
-    settings_files = os.listdir('tpl')
-
+    TPL = os.path.dirname(os.path.abspath(__file__))
+    TPL = os.path.join(TPL, 'tpl')
+    settings_files = [os.path.join(TPL, file) for file in os.listdir(TPL)
+                                              if file != '__pycache__']
     for file in settings_files:
-        shutil.copy(file, SETTINGS_PATH)
+        try:
+            shutil.copy(file, SETTINGS_PATH)
+        except FileNotFoundError:
+            print(f'Error >{file}')
 
     create_file(SETTINGS_PATH)
 
@@ -45,9 +48,12 @@ def main():
         " use 'python manage.py secrets --add'."
         "To use 'python manage.py secrets add' - please add in settings "
         "INSTALLED_APPS = ('django_secresy',)\n"
+        "Do not forget to add 'development.py' to .gitignore\n"
         "Happy coding! :)\n"
     )
     print(msg)
+    # delete default settings file
+    os.remove(os.path.join(BASE_DIR_SETTINGS, 'settings.py'))
 
 
 if __name__ == '__main__':

@@ -26,5 +26,5 @@ def create_file(SETTINGS_PATH):
         'PASSWORD': '',
         'SECRET_KEY': 'NOT A SECRET',
     }
-    with open(secret_file, 'r') as file:
+    with open(secret_file, 'w') as file:
         json.dump(secret, file)
