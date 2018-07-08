@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="django-secrecy",
-    version='0.81.4',
+    version='0.82',
     include_package_data=True,
     description="Django secret project variables",
     long_description="Django app which generates JSON file with 'secret project variables'",
