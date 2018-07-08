@@ -21,4 +21,9 @@ setup(
     keywords=['SECRET_KEY', 'Project settings'],
     package_dir={'': 'src'},
     packages=find_packages('src'),
+    entry_points={
+         'console_scripts': [
+            'generator=django_secrecy.generator:main',
+        ],
+    },
 )

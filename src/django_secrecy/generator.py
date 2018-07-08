@@ -17,32 +17,38 @@ BASE_DIR_SETTINGS = os.path.join(project, project_name)
 
 
 SETTINGS_PATH = os.path.join(BASE_DIR_SETTINGS, 'settings')
-try:
-    os.mkdir(SETTINGS_PATH)
-except FileExistsError:
+
+def main():
+    try:
+        os.mkdir(SETTINGS_PATH)
+    except FileExistsError:
+        msg = (
+            "You have already created the settings.\n"
+            "To add secret values, use 'python manage.py secrets --add' "
+            "from your project."
+        )
+        print(msg)
+        exit()
+
+    settings_files = os.listdir('tpl')
+
+    for file in settings_files:
+        shutil.copy(file, SETTINGS_PATH)
+
+    create_file(SETTINGS_PATH)
+
     msg = (
-        "You have already created the settings.\n"
-        "To add secret values, use 'python manage.py secrets --add' "
-        "from your project."
+        "Basic settings are created! \n"
+        "ATTENTION! You have created the basic settings "
+        "for launching in production, use 'python manage.py secrets'!\n"
+        "If you want to add more secret variables, "
+        " use 'python manage.py secrets --add'."
+        "To use 'python manage.py secrets add' - please add in settings "
+        "INSTALLED_APPS = ('django_secresy',)\n"
+        "Happy coding! :)\n"
     )
     print(msg)
-    exit()
 
-settings_files = os.listdir('tpl')
 
-for file in settings_files:
-    shutil.copy(file, SETTINGS_PATH)
-
-create_file(SETTINGS_PATH)
-
-msg = (
-    "Basic settings are created! \n"
-    "ATTENTION! You have created the basic settings "
-    "for launching in production, use 'python manage.py secrets'!\n"
-    "If you want to add more secret variables, "
-    " use 'python manage.py secrets --add'."
-    "To use 'python manage.py secrets add' - please add in settings "
-    "INSTALLED_APPS = ('django_secresy',)\n"
-    "Happy coding! :)\n"
-)
-print(msg)
+if __name__ == '__main__':
+    main()
