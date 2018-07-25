@@ -17,14 +17,3 @@ def get_secret(BASE_DIR, setting):
         logger.warning('File not found! Please ./generator first!')
         return None
     return SECRETS[setting]
-
-def create_file(SETTINGS_PATH):
-    secret_file = os.path.join(SETTINGS_PATH, 'secrets.json')
-    secret = {
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'SECRET_KEY': 'NOT A SECRET',
-    }
-    with open(secret_file, 'w') as file:
-        json.dump(secret, file)

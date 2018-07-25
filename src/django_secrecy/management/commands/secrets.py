@@ -82,4 +82,4 @@ class Command(BaseCommand):
     def write_file(self, secret):
         with open(self.secret_file, 'w') as file:
             json.dump(secret, file)
-        print('Файл создан')
+        print('File written!')
