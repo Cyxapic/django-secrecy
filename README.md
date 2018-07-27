@@ -1,6 +1,9 @@
 Django Secrecy
 ==============
-
+-----------------
+- For Django 2+
+- Only linux :(
+-----------------
 Secrecy is a simple app which create settings structure:
 - DIRS:
     - settings
