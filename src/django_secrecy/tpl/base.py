@@ -7,6 +7,8 @@ BASE_DIR = os.path.dirname(
                 os.path.dirname(
                     os.path.dirname(os.path.abspath(__file__))))
 
+PROJ_NAME = BASE_DIR.split('/')[-1]
+
 SECRET_KEY = get_secret(BASE_DIR, 'SECRET_KEY')
 
 INSTALLED_APPS = [
@@ -28,7 +30,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'blog.urls'
+ROOT_URLCONF = f'{PROJ_NAME}.urls'
 
 TEMPLATES = [
     {
@@ -46,7 +48,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'blog.wsgi.application'
+WSGI_APPLICATION = f'{PROJ_NAME}.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

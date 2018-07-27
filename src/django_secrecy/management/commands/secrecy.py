@@ -29,22 +29,24 @@ class Command(BaseCommand):
                                         'settings/secrets.json')
 
     def add_arguments(self, parser):
-        parser.add_argument('--add', nargs=None, type=str,
-            default=False,
-            help='Add secret value, the NAME is always capitalized!')
+        parser.add_argument(
+            '--add',
+            '--delete',
+            action='store_true',
+            dest='add',
+            help='Add secret value, the NAME is always capitalized!'
+        )
 
     def handle(self, *args, **options):
         if not os.path.exists(self.secret_file):
-            print('Please generator first!')
+            print('Please start "generator <PROJECT_NAME>" first!')
             exit()
-        if not settings.DEBUG and not options['addparam'] \
-           and not os.path.exists(self.secret_file):
-            self.prod_setup()
         if options['add']:
-            custom_secret = self.add_param()
-            self.update_file(custom_secret)
+            self._add_param()
+        else:
+            self._db_setup()
 
-    def prod_setup(self):
+    def _db_setup(self):
         self.db_name = input('DB NAME > ')
         self.username = input('DB USERNAME > ')
         while True:
@@ -54,32 +56,39 @@ class Command(BaseCommand):
                 break
             else:
                 print("Passwords do not match - repeat!")
-        self.create_file()
+        self._create_secrets()
 
-    def add_param(self):
+    def _add_param(self):
         name = input('Type NAME of value > ')
         value = input('Type secret value > ')
-        if not name or not value:
-            print('No value set!')
+        if name and value:
+            self._update_file({name.upper(): value})
+        else:
+            print('ERROR: No value set!')
             exit()
-        return {name.upper(): value}
 
-    def create_file(self):
+    def _create_secrets(self):
         secret = {
             'NAME': self.db_name,
             'USER': self.username,
             'PASSWORD': self.db_pass,
             'SECRET_KEY': self.SECRET_KEY,
         }
-        self.write_file(secret)
+        self._write_file(secret)
+        print('Secrets written!')
 
-    def update_file(self, custom_secret):
+    def _update_file(self, custom_secret):
         with open(self.secret_file, 'r') as file:
-            secret = json.load(file)
-        secret.update(custom_secrets)
-        self.write_file(secret)
+            secrets = json.load(file)
+        secrets.update(custom_secret)
+        self._write_file(secrets)
+        msg = (
+            "Secrets updated!\n"
+            "Don't forget add <NEW_SECRET> value in settings\n"
+            "<NEW_SECRET> = get_secret(BASE_DIR, '<NEW_SECRET>')\n"
+        )
+        print(msg)
 
-    def write_file(self, secret):
+    def _write_file(self, secret):
         with open(self.secret_file, 'w') as file:
             json.dump(secret, file)
-        print('File written!')

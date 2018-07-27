@@ -17,7 +17,7 @@ class Generator:
         parser.add_argument("project_name", help="Django project name")
         args = parser.parse_args()
         project_name = args.project_name
-        BASE_DIR = os.path.join(sys.path[-1].split('lib')[0], project_name)
+        BASE_DIR = os.path.join(os.environ['VIRTUAL_ENV'], project_name)
         base_dir_settings = os.path.join(BASE_DIR, project_name)
         settings_path = os.path.join(base_dir_settings, 'settings')
         secret_file = os.path.join(settings_path, 'secrets.json')
@@ -37,7 +37,10 @@ class Generator:
             except FileNotFoundError:
                 print(f'Error >{file}')
         # delete default settings file
-        os.remove(os.path.join(self.BASE_DIR, 'settings.py'))
+        try:
+            os.remove(os.path.join(self.BASE_DIR, 'settings.py'))
+        except FileNotFoundError:
+            print('*** File "settings.py" already deleted! ***')
         return True
 
     def _create_file(self):
@@ -62,11 +65,10 @@ class Generator:
              msg_file = "The secrets.json was created successly."
         else:
             msg_file = "The secrets.json already exists."
-        msg = ("***************************************************************\n"
-                f"{msg_set}\n"
-                f"{msg_file}\n"
-                "To add secret values, use 'python manage.py secrets --add' "
-                "from your project."
-                "***************************************************************\n"
-            )
+        msg = (
+            "***************************************************************\n"
+            f"{msg_set}\n"
+            "***************************************************************\n"
+            f"{msg_file}\n"
+        )
         print(msg)
