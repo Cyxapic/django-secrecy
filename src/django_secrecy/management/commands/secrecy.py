@@ -31,7 +31,6 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             '--add',
-            '--delete',
             action='store_true',
             dest='add',
             help='Add secret value, the NAME is always capitalized!'
@@ -39,7 +38,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not os.path.exists(self.secret_file):
-            print('Please start "generator <PROJECT_NAME>" first!')
+            print('Please start "generator" first!')
             exit()
         if options['add']:
             self._add_param()

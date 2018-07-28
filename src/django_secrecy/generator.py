@@ -1,7 +1,6 @@
 import os
 import sys
 import shutil
-import argparse
 import json
 
 
@@ -13,12 +12,12 @@ class Generator:
         self.BASE_DIR, self.SETTINGS_PATH, self.secret_file = self._get_path()
 
     def _get_path(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument("project_name", help="Django project name")
-        args = parser.parse_args()
-        project_name = args.project_name
-        BASE_DIR = os.path.join(os.environ['VIRTUAL_ENV'], project_name)
-        base_dir_settings = os.path.join(BASE_DIR, project_name)
+        path = os.getcwd()
+        project_name = path.split('/')[-1]
+        base_dir_settings = os.path.join(path, project_name)
+        if not self._check(base_dir_settings):
+            print('Create project please!')
+            exit()
         settings_path = os.path.join(base_dir_settings, 'settings')
         secret_file = os.path.join(settings_path, 'secrets.json')
         return base_dir_settings, settings_path, secret_file
