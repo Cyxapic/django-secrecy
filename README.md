@@ -13,16 +13,11 @@ Quick start
 -----------
 1. pip install django-secrecy
 2. From your project root dir `./generator` - to create settings structure.
-3. Add "django_secrecy" to your INSTALLED_APPS setting.
-    INSTALLED_APPS = [
-        ...
-        'django_secrecy',
-    ]
-5. Run `python manage.py secrecy` - rewrite JSON with new secrets file.
+3. Run `python manage.py secrecy` - rewrite JSON with new secrets file.
 
-## Default params
-- `python manage.py secrecy` generate default params
+## Extra params
 - if you need extra params use `python manage.py secrecy --add`.
+- add in settings <NEW_SECRET> = get_secret('<NEW_SECRET>', BASE_DIR, PROJ_NAME)
 - Params <name> allways bee UPPER.
 
 ## TODO
