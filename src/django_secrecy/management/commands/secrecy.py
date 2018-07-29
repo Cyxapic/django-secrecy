@@ -23,10 +23,9 @@ class Command(BaseCommand):
     SECRET_KEY = base64.b64encode(os.urandom(60)).decode()
 
     def __init__(self):
-        PROJECT_NAME = settings.BASE_DIR.split(os.sep)[-1]
         self.secret_file = os.path.join(settings.BASE_DIR,
-                                        PROJECT_NAME,
-                                        'settings'
+                                        settings.PROJ_NAME,
+                                        'settings',
                                         'secrets.json')
 
     def add_arguments(self, parser):
