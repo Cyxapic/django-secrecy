@@ -84,7 +84,9 @@ class Command(BaseCommand):
         msg = (
             "Secrets updated!\n"
             "Don't forget add <NEW_SECRET> value in settings\n"
-            "<NEW_SECRET> = get_secret(BASE_DIR, '<NEW_SECRET>')\n"
+            "<NEW_SECRET> = get_secret('<NEW_SECRET>')\n"
+            "If you have error please check first DEFAULT params\n"
+            "like BASE_DIR and PROJ_NAME\n"
         )
         print(msg)
 

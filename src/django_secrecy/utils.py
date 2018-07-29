@@ -5,15 +5,15 @@ import logging
 
 logger = logging.getLogger('setup_log')
 
-def get_secret(BASE_DIR, setting):
-    PROJECT_NAME = BASE_DIR.split(os.sep)[-1]
+def get_secret(setting, BASE_DIR=BASE_DIR, PROJ_NAME=PROJ_NAME):
     SECRET_FILE = os.path.join(BASE_DIR,
-                               PROJECT_NAME,
-                               'settings/secrets.json')
+                               PROJ_NAME,
+                               'settings',
+                               'secrets.json')
     try:
         with open(SECRET_FILE, 'r') as file:
             SECRETS = json.load(file)
     except FileNotFoundError:
-        logger.warning('File not found! Please ./generator first!')
+        logger.warning('File not found! Check BASE_DIR or PROJ_NAME')
         return None
     return SECRETS[setting]

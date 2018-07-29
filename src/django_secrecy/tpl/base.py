@@ -7,9 +7,9 @@ BASE_DIR = os.path.dirname(
                 os.path.dirname(
                     os.path.dirname(os.path.abspath(__file__))))
 
-PROJ_NAME = BASE_DIR.split('/')[-1]
+PROJ_NAME = BASE_DIR.split(os.sep)[-1]
 
-SECRET_KEY = get_secret(BASE_DIR, 'SECRET_KEY')
+SECRET_KEY = get_secret('SECRET_KEY')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
