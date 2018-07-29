@@ -26,7 +26,8 @@ class Command(BaseCommand):
         PROJECT_NAME = settings.BASE_DIR.split(os.sep)[-1]
         self.secret_file = os.path.join(settings.BASE_DIR,
                                         PROJECT_NAME,
-                                        'settings/secrets.json')
+                                        'settings'
+                                        'secrets.json')
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -84,9 +85,7 @@ class Command(BaseCommand):
         msg = (
             "Secrets updated!\n"
             "Don't forget add <NEW_SECRET> value in settings\n"
-            "<NEW_SECRET> = get_secret('<NEW_SECRET>')\n"
-            "If you have error please check first DEFAULT params\n"
-            "like BASE_DIR and PROJ_NAME\n"
+            "<NEW_SECRET> = get_secret('<NEW_SECRET>', BASE_DIR, PROJ_NAME)\n"
         )
         print(msg)
 

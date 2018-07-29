@@ -1,3 +1,8 @@
+'''
+Settings made by django_secrecy app.
+https://github.com/Cyxapic/django-secrecy
+'''
+
 import os
 
 from django_secrecy.utils import get_secret
@@ -9,7 +14,7 @@ BASE_DIR = os.path.dirname(
 
 PROJ_NAME = BASE_DIR.split(os.sep)[-1]
 
-SECRET_KEY = get_secret('SECRET_KEY')
+SECRET_KEY = get_secret('SECRET_KEY', BASE_DIR, PROJ_NAME)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -18,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_secrecy',
 ]
 
 MIDDLEWARE = [

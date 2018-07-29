@@ -10,8 +10,6 @@ def main():
         "for launching in production or create DB params,\n"
         "use 'python manage.py secrecy'!\n"
         "To add secret values, use 'python manage.py secrecy --add' \n"
-        "To use 'python manage.py secrecy add' - please add in settings "
-        "INSTALLED_APPS = ('django_secresy',)\n"
         "Do not forget to add 'development.py' to .gitignore\n"
         "Happy coding! :)\n"
         "***************************************************************\n"
