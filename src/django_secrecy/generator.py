@@ -13,7 +13,7 @@ class Generator:
 
     def _get_path(self):
         path = os.getcwd()
-        project_name = path.split('/')[-1]
+        project_name = path.split(os.sep)[-1]
         base_dir_settings = os.path.join(path, project_name)
         if not self._check(base_dir_settings):
             print('Create project please!')
