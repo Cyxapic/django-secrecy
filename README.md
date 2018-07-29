@@ -1,13 +1,14 @@
 Django Secrecy
 ==============
 -----------------
-- For Django 2+
+- python 3.6+
+- Django 2+
 -----------------
 Secrecy is a simple app which create settings structure:
-- DIRS:
-    - settings
-    - FILES > prodacion.py; development.py
-- JSON file with "secret project variables"
+- settings:
+    - prodacion.py
+    - development.py (too .gitignore)
+    - secrets.json; JSON file with "secret project variables"
 
 Quick start
 -----------
