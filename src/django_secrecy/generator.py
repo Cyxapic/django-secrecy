@@ -1,6 +1,7 @@
 import os
 import sys
 import shutil
+import argparse
 import json
 
 
@@ -11,9 +12,29 @@ class Generator:
     def __init__(self):
         self.BASE_DIR, self.SETTINGS_PATH, self.secret_file = self._get_path()
 
+    def _get_proj_name(self):
+        description = (
+            "Start generator with your project name\n"
+            "in project root dir\n"
+            "like: generator <project_name>\n"
+        )
+        parser = argparse.ArgumentParser(description=description)
+        parser.add_argument("project_name", type=str, help="Django project name")
+        args = parser.parse_args()
+        return args.project_name
+
     def _get_path(self):
+        project_name = self._get_proj_name()
         path = os.getcwd()
-        project_name = path.split('/')[-1]
+        if project_name not in path:
+            msg = (
+                "***************************************\n"
+                "Sorry, project not found!\n"
+                "Are you shure that you in PROJECT ROOT?\n"
+                "***************************************\n"
+            )
+            print(msg)
+            exit()
         base_dir_settings = os.path.join(path, project_name)
         if not self._check(base_dir_settings):
             print('Create project please!')
@@ -35,9 +56,11 @@ class Generator:
                 shutil.copy(file, self.SETTINGS_PATH)
             except FileNotFoundError:
                 print(f'Error >{file}')
-        # delete default settings file
+        # rename default settings file
         try:
-            os.remove(os.path.join(self.BASE_DIR, 'settings.py'))
+            default = os.path.join(self.BASE_DIR, 'settings.py')
+            old = os.path.join(self.BASE_DIR, 'settings.old')
+            shutil.move(default, old)
         except FileNotFoundError:
             print('*** File "settings.py" already deleted! ***')
         return True
