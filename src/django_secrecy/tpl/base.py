@@ -5,7 +5,7 @@ https://github.com/Cyxapic/django-secrecy
 
 import os
 
-from django_secrecy.utils import get_secret
+from django_secrecy.utils import get_secrets
 
 
 BASE_DIR = os.path.dirname(
@@ -14,7 +14,9 @@ BASE_DIR = os.path.dirname(
 
 PROJ_NAME = BASE_DIR.split(os.sep)[-1]
 
-SECRET_KEY = get_secret('SECRET_KEY', BASE_DIR, PROJ_NAME)
+secrets = get_secrets(BASE_DIR, PROJ_NAME)
+
+SECRET_KEY = secrets.SECRET_KEY
 
 INSTALLED_APPS = [
     'django.contrib.admin',

@@ -1,6 +1,6 @@
 from django_secrecy.utils import get_secret
 
-from .base import BASE_DIR, PROJ_NAME
+from .base import secrets
 
 
 DEBUG = False
@@ -11,9 +11,9 @@ ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': get_secret('NAME', BASE_DIR, PROJ_NAME),
-        'USER': get_secret('USER', BASE_DIR, PROJ_NAME),
-        'PASSWORD': get_secret('PASSWORD', BASE_DIR, PROJ_NAME),
+        'NAME': secrets.NAME,
+        'USER': secrets.USER,
+        'PASSWORD': secrets.PASSWORD,
         'HOST': '',
         'PORT': '',
         'TEST': {

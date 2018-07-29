@@ -18,7 +18,7 @@ Quick start
 
 ## Extra params
 - if you need extra params use `python manage.py secrecy --add`.
-- add in settings <NEW_SECRET> = get_secret('<NEW_SECRET>', BASE_DIR, PROJ_NAME)
+- add in settings <NEW_SECRET> = secrets.<NEW_SECRET>
 - Params <name> always bee UPPER.
 
 ## TODO
