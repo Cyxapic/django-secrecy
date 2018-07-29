@@ -26,9 +26,6 @@ class Generator:
     def _get_path(self):
         project_name = self._get_proj_name()
         path = os.getcwd()
-<<<<<<< HEAD
-        project_name = path.split(os.sep)[-1]
-=======
         if project_name not in path:
             msg = (
                 "***************************************\n"
@@ -38,7 +35,6 @@ class Generator:
             )
             print(msg)
             exit()
->>>>>>> development
         base_dir_settings = os.path.join(path, project_name)
         if not self._check(base_dir_settings):
             print('Create project please!')
