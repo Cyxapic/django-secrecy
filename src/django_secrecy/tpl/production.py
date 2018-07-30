@@ -1,5 +1,3 @@
-from django_secrecy.utils import get_secret
-
 from .base import secrets
 
 

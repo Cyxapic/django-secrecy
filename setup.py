@@ -1,12 +1,16 @@
 from setuptools import setup, find_packages
 
 
+with open('README.md') as f:
+    long_description = f.read()
+
 setup(
     name="django-secrecy",
-    version='0.97',
+    version='0.977',
     include_package_data=True,
     description="Django secret project variables",
-    long_description="Django app which generates JSON file with 'secret project variables'",
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author="Artem Sukharenko",
     author_email="truecyxapic@yandex.ru",
     url="https://github.com/Cyxapic/django-secrecy",

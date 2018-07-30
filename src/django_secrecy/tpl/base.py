@@ -8,13 +8,11 @@ import os
 from django_secrecy.utils import get_secrets
 
 
-BASE_DIR = os.path.dirname(
-                os.path.dirname(
-                    os.path.dirname(os.path.abspath(__file__))))
+SETTINGS_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(SETTINGS_DIR))
+PROJ_NAME = os.path.dirname(SETTINGS_DIR).split(os.sep)[-1]
 
-PROJ_NAME = BASE_DIR.split(os.sep)[-1]
-
-secrets = get_secrets(BASE_DIR, PROJ_NAME)
+secrets = get_secrets(SETTINGS_DIR)
 
 SECRET_KEY = secrets.SECRET_KEY
 

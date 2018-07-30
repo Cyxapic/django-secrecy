@@ -26,7 +26,8 @@ class Generator:
     def _get_path(self):
         project_name = self._get_proj_name()
         path = os.getcwd()
-        if project_name not in path:
+        base_dir_settings = os.path.join(path, project_name)
+        if not self._check(base_dir_settings):
             msg = (
                 "***************************************\n"
                 "Sorry, project not found!\n"
@@ -34,10 +35,6 @@ class Generator:
                 "***************************************\n"
             )
             print(msg)
-            exit()
-        base_dir_settings = os.path.join(path, project_name)
-        if not self._check(base_dir_settings):
-            print('Create project please!')
             exit()
         settings_path = os.path.join(base_dir_settings, 'settings')
         secret_file = os.path.join(settings_path, 'secrets.json')
@@ -47,22 +44,16 @@ class Generator:
         if self._check(self.SETTINGS_PATH):
             return False
         os.mkdir(self.SETTINGS_PATH)
-        TPL = os.path.dirname(os.path.abspath(__file__))
-        TPL = os.path.join(TPL, 'tpl')
-        settings_files = [os.path.join(TPL, file) for file in os.listdir(TPL)
-                                                  if file != '__pycache__']
-        for file in settings_files:
+        TPL_PATH = os.path.join(
+                os.path.dirname(
+                    os.path.abspath(__file__)), 'tpl')
+        TPL = ('__init__.py', 'base.py', 'development.py', 'production.py')
+        for file in TPL:
+            tpl = os.path.join(TPL_PATH, file)
             try:
-                shutil.copy(file, self.SETTINGS_PATH)
+                shutil.copy(tpl, self.SETTINGS_PATH)
             except FileNotFoundError:
-                print(f'Error >{file}')
-        # rename default settings file
-        try:
-            default = os.path.join(self.BASE_DIR, 'settings.py')
-            old = os.path.join(self.BASE_DIR, 'settings.old')
-            shutil.move(default, old)
-        except FileNotFoundError:
-            print('*** File "settings.py" already deleted! ***')
+                exit(f'Critical Error: template does not exist > {tpl}')
         return True
 
     def _create_file(self):
@@ -78,6 +69,14 @@ class Generator:
             json.dump(secrets, file)
         return True
 
+    def _remove_default(self):
+        default = os.path.join(self.BASE_DIR, 'settings.py')
+        old = os.path.join(self.BASE_DIR, 'settings.old')
+        try:
+            shutil.move(default, old)
+        except FileNotFoundError:
+            print('*** File "settings.py" already deleted! ***')
+
     def handle(self):
         if self._create_settings():
             msg_set = "The settings was created successly."
@@ -87,6 +86,8 @@ class Generator:
              msg_file = "The secrets.json was created successly."
         else:
             msg_file = "The secrets.json already exists."
+        # rename default settings file
+        self._remove_default()
         msg = (
             "***************************************************************\n"
             f"{msg_set}\n"

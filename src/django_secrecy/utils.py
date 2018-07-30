@@ -6,8 +6,8 @@ import logging
 logger = logging.getLogger('setup_log')
 
 
-def get_secrets(BASE_DIR, PROJ_NAME):
-    SECRET_FILE = os.path.join(BASE_DIR, PROJ_NAME,'settings', 'secrets.json')
+def get_secrets(SETTINGS_DIR):
+    SECRET_FILE = os.path.join(SETTINGS_DIR, 'secrets.json')
     try:
         with open(SECRET_FILE, 'r') as file:
             SECRETS = json.load(file)

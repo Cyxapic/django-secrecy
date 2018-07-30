@@ -17,6 +17,8 @@ class Command(BaseCommand):
                 DB password > very strong password;
                 SECRET_KEY;
         '''
+    requires_migrations_checks = False
+    requires_system_checks = False
     db_name = None
     username = None
     db_pass = None
