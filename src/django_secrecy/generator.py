@@ -31,7 +31,7 @@ class Generator:
         self.project_name = self._get_proj_name()
         path = os.getcwd()
         base_dir_settings = os.path.join(path, self.project_name)
-        if not self._check(base_dir_settings):
+        if not self._check(os.path.join(base_dir_settings, 'wsgi.py')):
             msg = (
                 "***************************************\n"
                 "Sorry, project not found!\n"
