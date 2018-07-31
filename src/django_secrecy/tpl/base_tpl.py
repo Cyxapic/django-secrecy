@@ -1,8 +1,4 @@
-'''
-Settings made by django_secrecy app.
-https://github.com/Cyxapic/django-secrecy
-'''
-
+SETTINGS_TPL = '''
 import os
 
 from django_secrecy.utils import get_secrets
@@ -10,7 +6,6 @@ from django_secrecy.utils import get_secrets
 
 SETTINGS_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(SETTINGS_DIR))
-PROJ_NAME = os.path.dirname(SETTINGS_DIR).split(os.sep)[-1]
 
 secrets = get_secrets(SETTINGS_DIR)
 
@@ -36,39 +31,39 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = f'{PROJ_NAME}.urls'
+ROOT_URLCONF = '{PROJ_NAME}.urls'
 
 TEMPLATES = [
-    {
+    {{
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
-        'OPTIONS': {
+        'OPTIONS': {{
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-        },
-    },
+        }},
+    }},
 ]
 
-WSGI_APPLICATION = f'{PROJ_NAME}.wsgi.application'
+WSGI_APPLICATION = '{PROJ_NAME}.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
+    {{
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
+    }},
+    {{
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
+    }},
+    {{
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
+    }},
+    {{
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    }},
 ]
 
 LANGUAGE_CODE = 'en-us'
@@ -82,3 +77,5 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+'''

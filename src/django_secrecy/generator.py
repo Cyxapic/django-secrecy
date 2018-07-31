@@ -4,12 +4,15 @@ import shutil
 import argparse
 import json
 
+from .tpl.base_tpl import SETTINGS_TPL
+
 
 class Generator:
 
     _check = lambda self, x: os.path.exists(x)
 
     def __init__(self):
+        self.project_name = None
         self.BASE_DIR, self.SETTINGS_PATH, self.secret_file = self._get_path()
 
     def _get_proj_name(self):
@@ -24,9 +27,9 @@ class Generator:
         return args.project_name
 
     def _get_path(self):
-        project_name = self._get_proj_name()
+        self.project_name = self._get_proj_name()
         path = os.getcwd()
-        base_dir_settings = os.path.join(path, project_name)
+        base_dir_settings = os.path.join(path, self.project_name)
         if not self._check(base_dir_settings):
             msg = (
                 "***************************************\n"
@@ -47,14 +50,25 @@ class Generator:
         TPL_PATH = os.path.join(
                 os.path.dirname(
                     os.path.abspath(__file__)), 'tpl')
-        TPL = ('__init__.py', 'base.py', 'development.py', 'production.py')
+        TPL = (
+            ('init_tpl.py', '__init__.py'),
+            ('development_tpl.py', 'development.py'),
+            ('production_tpl.py', 'production.py'),
+        )
         for file in TPL:
-            tpl = os.path.join(TPL_PATH, file)
+            tpl = os.path.join(TPL_PATH, file[0])
+            dist = os.path.join(self.SETTINGS_PATH, file[1])
             try:
-                shutil.copy(tpl, self.SETTINGS_PATH)
+                shutil.copy(tpl, dist)
             except FileNotFoundError:
                 exit(f'Critical Error: template does not exist > {tpl}')
+        self._create_base()
         return True
+
+    def _create_base(self):
+        base_path = os.path.join(self.SETTINGS_PATH, 'base.py')
+        with open(base_path, 'w') as file:
+            file.write(SETTINGS_TPL.format(PROJ_NAME=self.project_name))
 
     def _create_file(self):
         if self._check(self.secret_file):
