@@ -6,7 +6,7 @@ with open('README.md') as f:
 
 setup(
     name="django-secrecy",
-    version='0.977',
+    version='0.978',
     include_package_data=True,
     description="Django secret project variables",
     long_description=long_description,
