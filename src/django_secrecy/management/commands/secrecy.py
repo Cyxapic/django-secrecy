@@ -25,9 +25,7 @@ class Command(BaseCommand):
     SECRET_KEY = base64.b64encode(os.urandom(60)).decode()
 
     def __init__(self):
-        self.secret_file = os.path.join(settings.BASE_DIR,
-                                        settings.PROJ_NAME,
-                                        'settings',
+        self.secret_file = os.path.join(settings.SETTINGS_DIR,
                                         'secrets.json')
 
     def add_arguments(self, parser):
@@ -40,8 +38,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not os.path.exists(self.secret_file):
-            print('Please start "generator" first!')
-            exit()
+            exit('Please start "generator" first!')
         if options['add']:
             self._add_param()
         else:
@@ -65,8 +62,7 @@ class Command(BaseCommand):
         if name and value:
             self._update_file({name.upper(): value})
         else:
-            print('ERROR: No value set!')
-            exit()
+            exit('ERROR: No value set!')
 
     def _create_secrets(self):
         secret = {
@@ -86,7 +82,7 @@ class Command(BaseCommand):
         msg = (
             "Secrets updated!\n"
             "Don't forget add <NEW_SECRET> value in settings\n"
-            "<NEW_SECRET> = get_secret('<NEW_SECRET>', BASE_DIR, PROJ_NAME)\n"
+            "<NEW_SECRET> = secrets.<NEW_SECRET>\n"
         )
         print(msg)
 

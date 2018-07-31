@@ -1,5 +1,6 @@
 import os
 import sys
+import base64
 import shutil
 import argparse
 import json
@@ -37,8 +38,7 @@ class Generator:
                 "Are you shure that you in PROJECT ROOT?\n"
                 "***************************************\n"
             )
-            print(msg)
-            exit()
+            exit(msg)
         settings_path = os.path.join(base_dir_settings, 'settings')
         secret_file = os.path.join(settings_path, 'secrets.json')
         return base_dir_settings, settings_path, secret_file
@@ -77,7 +77,7 @@ class Generator:
             'NAME': '',
             'USER': '',
             'PASSWORD': '',
-            'SECRET_KEY': 'NOT A SECRET',
+            'SECRET_KEY': base64.b64encode(os.urandom(60)).decode(),
         }
         with open(self.secret_file, 'w') as file:
             json.dump(secrets, file)
