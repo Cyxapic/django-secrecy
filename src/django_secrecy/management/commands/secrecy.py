@@ -2,7 +2,7 @@ import os
 import base64
 import json
 import getpass
-import shutil
+import secrets
 
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
@@ -51,7 +51,7 @@ class Command(BaseCommand):
         while True:
             self.db_pass = getpass.getpass(prompt='DB PASSWORD > ')
             db_pass2 = getpass.getpass(prompt='DB PASSWORD (again) > ')
-            if self.db_pass == db_pass2:
+            if secrets.compare_digest(self.db_pass, db_pass2)
                 break
             else:
                 print("Passwords do not match - repeat!")
