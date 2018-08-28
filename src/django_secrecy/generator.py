@@ -14,6 +14,7 @@ class Generator:
 
     def __init__(self):
         self.project_name = None
+        self.create_dev = None
         self.BASE_DIR, self.SETTINGS_PATH, self.secret_file = self._get_path()
 
     def _get_proj_name(self):
@@ -24,7 +25,14 @@ class Generator:
         )
         parser = argparse.ArgumentParser(description=description)
         parser.add_argument("project_name", type=str, help="Django project name")
+        parser.add_argument(
+            '--dev',
+            action='store_true',
+            dest='dev',
+            help='Create basic development.py'
+        )
         args = parser.parse_args()
+        self.create_dev = True if args.dev else False
         return args.project_name
 
     def _get_path(self):
@@ -91,7 +99,21 @@ class Generator:
         except FileNotFoundError:
             print('*** File "settings.py" already deleted! ***')
 
+    def _create_dev(self):
+        dev_path = os.path.join(self.SETTINGS_PATH, 'development.py')
+        if self._check(dev_path):
+            exit('development.py already exists!')
+        dev_tpl_path = os.path.join(
+                        os.path.dirname(
+                            os.path.abspath(__file__)),
+                            'tpl',
+                            'development_tpl.py')
+        shutil.copy(dev_tpl_path, dev_path)
+        exit('development.py created!')
+
     def handle(self):
+        if self.create_dev and self._check(self.SETTINGS_PATH):
+            self._create_dev()
         msg = (
             "***************************************************************\n"
             f"{self._create_settings()}\n"
