@@ -45,11 +45,11 @@ class Generator:
 
     def _create_settings(self):
         if self._check(self.SETTINGS_PATH):
-            return False
+            return "You have already created the settings."
         os.mkdir(self.SETTINGS_PATH)
         TPL_PATH = os.path.join(
-                os.path.dirname(
-                    os.path.abspath(__file__)), 'tpl')
+                        os.path.dirname(
+                            os.path.abspath(__file__)), 'tpl')
         TPL = (
             ('init_tpl.py', '__init__.py'),
             ('development_tpl.py', 'development.py'),
@@ -63,7 +63,7 @@ class Generator:
             except FileNotFoundError:
                 exit(f'Critical Error: template does not exist > {tpl}')
         self._create_base()
-        return True
+        return "The settings was created successly."
 
     def _create_base(self):
         base_path = os.path.join(self.SETTINGS_PATH, 'base.py')
@@ -72,7 +72,7 @@ class Generator:
 
     def _create_file(self):
         if self._check(self.secret_file):
-            return False
+            return "The secrets.json already exists."
         secrets = {
             'NAME': '',
             'USER': '',
@@ -81,7 +81,7 @@ class Generator:
         }
         with open(self.secret_file, 'w') as file:
             json.dump(secrets, file)
-        return True
+        return "The secrets.json was created successly."
 
     def _remove_default(self):
         default = os.path.join(self.BASE_DIR, 'settings.py')
@@ -92,20 +92,12 @@ class Generator:
             print('*** File "settings.py" already deleted! ***')
 
     def handle(self):
-        if self._create_settings():
-            msg_set = "The settings was created successly."
-        else:
-            msg_set = "You have already created the settings."
-        if self._create_file():
-             msg_file = "The secrets.json was created successly."
-        else:
-            msg_file = "The secrets.json already exists."
-        # rename default settings file
-        self._remove_default()
         msg = (
             "***************************************************************\n"
-            f"{msg_set}\n"
+            f"{self._create_settings()}\n"
             "***************************************************************\n"
-            f"{msg_file}\n"
+            f"{self._create_file()}\n"
         )
+        # rename default settings file
+        self._remove_default()
         print(msg)

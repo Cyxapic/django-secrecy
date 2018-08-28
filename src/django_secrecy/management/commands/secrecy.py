@@ -2,6 +2,7 @@ import os
 import base64
 import json
 import getpass
+import shutil
 
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
@@ -35,12 +36,20 @@ class Command(BaseCommand):
             dest='add',
             help='Add secret value, the NAME is always capitalized!'
         )
+        parser.add_argument(
+            '--dev',
+            action='store_true',
+            dest='dev',
+            help='Create basic development.py'
+        )
 
     def handle(self, *args, **options):
         if not os.path.exists(self.secret_file):
             exit('Please start "generator" first!')
         if options['add']:
             self._add_param()
+        elif options['dev']:
+            self._create_dev()
         else:
             self._db_setup()
 
@@ -63,6 +72,20 @@ class Command(BaseCommand):
             self._update_file({name.upper(): value})
         else:
             exit('ERROR: No value set!')
+    
+    def _create_dev(self):
+        dev_path = os.path.join(settings.SETTINGS_DIR, 'development.py')
+        if os.path.exists(dev_path):
+            exit('development.py already exists!')
+        dev_tpl_path = os.path.join(
+            os.path.dirname(
+                os.path.dirname(
+                        os.path.dirname(
+                            os.path.abspath(__file__)))),
+                            'tpl',
+                            'development_tpl.py')
+        shutil.copy(dev_tpl_path, dev_path)
+        print('development.py created!')
 
     def _create_secrets(self):
         secret = {
