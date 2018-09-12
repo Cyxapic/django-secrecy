@@ -9,7 +9,10 @@ from .tpl.base_tpl import SETTINGS_TPL
 
 
 class Generator:
-
+    """Generate secrets.json file
+       for secrets params django project
+       etc SECRET_KEY
+    """
     _check = lambda self, x: os.path.exists(x)
 
     def __init__(self):
