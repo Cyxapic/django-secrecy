@@ -72,7 +72,7 @@ class Command(BaseCommand):
             'PASSWORD': self.db_pass,
             'SECRET_KEY': self.SECRET_KEY,
         }
-        self._write_file(secret)
+        self._update_file(secret)
         print('Secrets written!')
 
     def _update_file(self, custom_secret):
