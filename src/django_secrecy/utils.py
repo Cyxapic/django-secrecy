@@ -5,6 +5,15 @@ import logging
 
 logger = logging.getLogger('setup_log')
 
+COLORS = {
+    'white': '\033[0m',
+    'red': '\033[31m',
+    'green': '\033[32m',
+    'orange': '\033[33m',
+    'yellow': '\033[93m',
+    'blue': '\033[34m',
+    'purple': '\033[35m',
+}
 
 class Secrets:
     '''Get secrets params from "secrets.json" file
